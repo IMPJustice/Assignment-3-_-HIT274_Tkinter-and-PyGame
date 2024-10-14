@@ -42,14 +42,56 @@ class TicTacToe:
 
         #Game menu
         game_menu = tk.Menu(menubar, tearoff=0)
-        #Add Quit option
+        
+        #Change Board option
+        game_menu.add_command(label="Change Board", command=self.change_board)
+        
+        #Quit option
         game_menu.add_command(label="Quit", command=self.root.quit)
 
-        #Add the Game menu to the menu bar
+        #The "Game" menu to the menu bar
         menubar.add_cascade(label="Game", menu=game_menu)
 
         #Set the menu bar as the window taskbar
         self.root.config(menu=menubar)
+
+    #Change board
+    def change_board(self):
+        # Open the board selection window to choose a new size
+        self.start_game_menu()
+
+    def start_game_menu(self):
+        # Create a new window to choose the game board size
+        size_window = tk.Toplevel(self.root)
+        size_window.title("Choose Board Size")
+        size_window.geometry("300x200")
+
+        tk.Label(size_window, text="Select board size", font=('Arial', 14)).pack(pady=10)
+
+        # 3x3 Game
+        size_3x3_button = tk.Button(size_window, text="3x3", font=('Arial', 14),
+                                    command=lambda: self.start_new_game(size_window, 3))
+        size_3x3_button.pack(pady=5)
+
+        # 5x5 Game
+        size_5x5_button = tk.Button(size_window, text="5x5", font=('Arial', 14),
+                                    command=lambda: self.start_new_game(size_window, 5))
+        size_5x5_button.pack(pady=5)
+
+        # 7x7 Game
+        size_7x7_button = tk.Button(size_window, text="7x7", font=('Arial', 14),
+                                    command=lambda: self.start_new_game(size_window, 7))
+        size_7x7_button.pack(pady=5)
+
+    #Start new game after choosing "Change board" option
+    def start_new_game(self, size_window, size):
+        # Close the size selection window
+        size_window.destroy()
+        # Close the current game window
+        self.root.destroy()
+        # Open a new game window with the selected size
+        new_game_window = tk.Tk()
+        TicTacToe(new_game_window, size)
 
     #Button check
     def on_button_click(self, row, col):
@@ -131,9 +173,9 @@ class MainMenu:
         #Open a new window to choose the game board size
         size_window = tk.Tk()
         size_window.title("Choose Board Size")
-        size_window.geometry("400x300")
+        size_window.geometry("300x200")
 
-        tk.Label(size_window, text="Choose board size:", font=('Arial', 14)).pack(pady=10)
+        tk.Label(size_window, text="Select board size", font=('Arial', 14)).pack(pady=10)
 
         #3x3 Game
         size_3x3_button = tk.Button(size_window, text="3x3", font=('Arial', 14),
