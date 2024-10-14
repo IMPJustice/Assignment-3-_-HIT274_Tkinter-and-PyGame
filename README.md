@@ -3,4 +3,9 @@ CDU_SYD 176
 Team Member:  Jay Nguyen - s379171
               Phuong Trinh Vu - s379763
               Md Mahirul Islam - s377896
+
+Task 1:
+  - Use command: "pip install tk" to install Tkinter
+  - Use command: "pip install pillow" to install Pillow library for adding background purpose
+  - Use command: "python main.py" to run the application
               
