@@ -101,12 +101,15 @@ class MainMenu:
     def __init__(self, root):
         self.root = root
         self.root.title("Tic Tac Toe Menu")
-        self.root.geometry("300x200")
+        self.root.geometry("400x300")
 
         self.create_widgets()
 
+    #Create application menu
     def create_widgets(self):
-        #Create menu buttons
+        #Application title
+        title_label = tk.Label(self.root, text="Welcome to Tic Tac Toe!", font=('Arial', 18, 'bold'))
+        title_label.pack(pady=20)
         
         #Start game option
         start_button = tk.Button(self.root, text="1. Start the Game", font=('Arial', 14), command=self.start_game_menu)
@@ -120,6 +123,7 @@ class MainMenu:
         quit_button = tk.Button(self.root, text="3. Quit", font=('Arial', 14), command=self.root.quit)
         quit_button.pack(pady=10)
 
+    #Generate game window
     def start_game_menu(self):
         #Destroy the main menu window
         self.root.destroy()
@@ -127,7 +131,7 @@ class MainMenu:
         #Open a new window to choose the game board size
         size_window = tk.Tk()
         size_window.title("Choose Board Size")
-        size_window.geometry("300x200")
+        size_window.geometry("400x300")
 
         tk.Label(size_window, text="Choose board size:", font=('Arial', 14)).pack(pady=10)
 
@@ -146,7 +150,7 @@ class MainMenu:
                                     command=lambda: self.start_game(size_window, 7))
         size_7x7_button.pack(pady=5)
 
-    
+    #Close the main menu and start the game
     def start_game(self, size_window, size):
         #Destroy window
         size_window.destroy()
@@ -155,7 +159,7 @@ class MainMenu:
         game_window = tk.Tk()
         app = TicTacToe(game_window, size)
 
-    #Rule options
+    #Rules display
     def show_rules(self):
         rules_message = """
         Tic Tac Toe Rules:
@@ -169,10 +173,3 @@ class MainMenu:
         Enjoy the game!
         """
         messagebox.showinfo("Tic Tac Toe Rules", rules_message)
-
-
-#Main application loop
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = MainMenu(root)
-    root.mainloop()
