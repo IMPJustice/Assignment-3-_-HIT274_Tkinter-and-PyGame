@@ -1,12 +1,18 @@
 import tkinter as tk
 from tkinter import messagebox
+from backgr import BlurredBackground
 
+SCORE_FILE = 'score.txt'
 
 class TicTacToe:
-    def __init__(self, root, size):
+    def __init__(self, root, size, scoreboard):
         self.root = root
         self.size = size
+        self.scoreboard = scoreboard
         self.root.title(f"Tic Tac Toe {size}x{size}")
+        
+        #Apply background class
+        background_app = BlurredBackground(self.root, "background.png")
         
         #Initialize variables
         self.player_turn = "X"
@@ -18,6 +24,7 @@ class TicTacToe:
             self.root.grid_rowconfigure(i, weight=1)
             #Columns resizable
             self.root.grid_columnconfigure(i, weight=1)
+            
         #Create UI for the Tic Tac Toe grid and quit button
         self.create_widgets()
 
@@ -87,11 +94,13 @@ class TicTacToe:
     def start_new_game(self, size_window, size):
         # Close the size selection window
         size_window.destroy()
+        
         # Close the current game window
         self.root.destroy()
+        
         # Open a new game window with the selected size
         new_game_window = tk.Tk()
-        TicTacToe(new_game_window, size)
+        TicTacToe(new_game_window, size, self.scoreboard)
 
     #Button check
     def on_button_click(self, row, col):
@@ -137,6 +146,20 @@ class TicTacToe:
             for j in range(self.size):
                 self.buttons[i][j]['text'] = ""
         self.player_turn = "X"
+        
+    #Scoreboard display
+    def update_scoreboard(self, winner):
+        # Update scoreboard in memory and save it to the file
+        if winner == "X":
+            self.scoreboard["X_wins"] += 1
+        elif winner == "O":
+            self.scoreboard["O_wins"] += 1
+
+        #Save and update scoreboard.txt file
+        with open(SCORE_FILE, 'w') as f:
+            f.write(f"X:{self.scoreboard['X_wins']}\n")
+            f.write(f"O:{self.scoreboard['O_wins']}\n")
+
 
 
 class MainMenu:
@@ -144,7 +167,14 @@ class MainMenu:
         self.root = root
         self.root.title("Tic Tac Toe Menu")
         self.root.geometry("400x300")
+        
+        #Apply background class
+        background_app = BlurredBackground(self.root, "background.png")
 
+        #Load scoreboard
+        self.scoreboard = self.load_scoreboard()
+
+        #Create UI
         self.create_widgets()
 
     #Create application menu
@@ -153,17 +183,35 @@ class MainMenu:
         title_label = tk.Label(self.root, text="Welcome to Tic Tac Toe!", font=('Arial', 18, 'bold'))
         title_label.pack(pady=20)
         
+        #Score section
+        self.scoreboard_label = tk.Label(self.root, text=f"X Wins: {self.scoreboard['X_wins']} | O Wins: {self.scoreboard['O_wins']}", font=('Arial', 14))
+        self.scoreboard_label.pack(pady=10)
+        
         #Start game option
-        start_button = tk.Button(self.root, text="1. Start the Game", font=('Arial', 14), command=self.start_game_menu)
+        start_button = tk.Button(self.root, text="Start the Game", font=('Arial', 14), command=self.start_game_menu)
         start_button.pack(pady=10)
 
         #Rules option
-        rules_button = tk.Button(self.root, text="2. Rules", font=('Arial', 14), command=self.show_rules)
+        rules_button = tk.Button(self.root, text="Rules", font=('Arial', 14), command=self.show_rules)
         rules_button.pack(pady=10)
 
         #Exit the application
-        quit_button = tk.Button(self.root, text="3. Quit", font=('Arial', 14), command=self.root.quit)
+        quit_button = tk.Button(self.root, text="Quit", font=('Arial', 14), command=self.root.quit)
         quit_button.pack(pady=10)
+        
+    def load_scoreboard(self):
+        #Load the scoreboard from a .txt file
+        scoreboard = {"X_wins": 0, "O_wins": 0}
+        try:
+            with open(SCORE_FILE, 'r') as f:
+                lines = f.readlines()
+                scoreboard["X_wins"] = int(lines[0].split(":")[1].strip())
+                scoreboard["O_wins"] = int(lines[1].split(":")[1].strip())
+        except FileNotFoundError:
+            #Create the scoreboard file if it doesn't exist
+            with open(SCORE_FILE, 'w') as f:
+                f.write("X:0\nO:0\n")
+        return scoreboard
 
     #Generate game window
     def start_game_menu(self):
@@ -199,7 +247,7 @@ class MainMenu:
 
         #Open the Tic Tac Toe game window
         game_window = tk.Tk()
-        app = TicTacToe(game_window, size)
+        app = TicTacToe(game_window, size, self.scoreboard)
 
     #Rules display
     def show_rules(self):
