@@ -8,14 +8,12 @@
 
 import tkinter as tk
 from function import MainMenu
-from backgr import BlurredBackgroundApp
+from backgr import BlurredBackground
 
 if __name__ == "__main__":
     root = tk.Tk()
 
-    #Set the blurred background image
-    backgr_img = "background.png"
-    backgr_app = BlurredBackgroundApp(root, backgr_img)
-    
+    #Initialize the main menu on top of the background
     app = MainMenu(root)
+
     root.mainloop()
