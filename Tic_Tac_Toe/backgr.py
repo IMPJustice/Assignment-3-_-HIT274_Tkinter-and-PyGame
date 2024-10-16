@@ -2,7 +2,7 @@ from tkinter import *
 from PIL import Image, ImageTk, ImageFilter
 
 
-class BlurredBackgroundApp:
+class BlurredBackground:
     def __init__(self, root, img_path):
         self.root = root
         self.img_path = img_path
