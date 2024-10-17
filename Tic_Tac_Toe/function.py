@@ -1,3 +1,11 @@
+"""
+    Application: Tic Tac Toe 1v1
+    Date: 18th Oct 2024
+    Author: Phuong Trinh Vu, Jay Nguyen
+    Github Repo: https://github.com/IMPJustice/Assignment-3-_-HIT274_Tkinter-and-PyGame.git
+
+"""
+
 import tkinter as tk
 from tkinter import messagebox
 from backgr import BlurredBackground
@@ -50,6 +58,9 @@ class TicTacToe:
         #Game menu
         game_menu = tk.Menu(menubar, tearoff=0)
         
+        #Back to Menu option
+        game_menu.add_command(label="Back to Menu", command=self.back_to_menu)
+        
         #Change Board option
         game_menu.add_command(label="Change Board", command=self.change_board)
         
@@ -61,6 +72,13 @@ class TicTacToe:
 
         #Set the menu bar as the window taskbar
         self.root.config(menu=menubar)
+        
+    #Back to main menu function
+    def back_to_menu(self):
+        # Close the current game window and reopen the main menu
+        self.root.destroy()
+        root = tk.Tk()
+        MainMenu(root)
 
     #Change board
     def change_board(self):
@@ -107,7 +125,10 @@ class TicTacToe:
         #Check if the button is already clicked
         if self.buttons[row][col]['text'] == "":
             #Place player's symbol on the button
-            self.buttons[row][col]['text'] = self.player_turn
+            if self.player_turn == "X":
+                self.buttons[row][col].config(text="X", fg="red") #Setting red for "X"
+            else:
+                self.buttons[row][col].config(text="O", fg="blue")#Setting blue for "O"
 
             #Check for a winner after the move
             if self.check_winner():
