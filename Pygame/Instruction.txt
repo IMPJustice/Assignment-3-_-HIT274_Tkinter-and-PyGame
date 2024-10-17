@@ -1,0 +1,11 @@
+1. Press arrow up to jump
+2. Press arrow left to move left
+3. Press arrow right to move right
+4. Press space button to kill enemies
+5. After killing 10 enemies level 2 will start
+6. After level 2 boss will come
+7. If you get close to the boss you will die
+8. Level, health and remaining life shows at the left top
+9. If you kill an enemy health boast will top up at the place
+10. After you die 3 times new game start option will arise
+11. Hero, enemy and boss has different symbol
