@@ -3,7 +3,6 @@
     Date: 18th Oct 2024
     Author: Md Mahirul Islam
     Github Repo: https://github.com/IMPJustice/Assignment-3-_-HIT274_Tkinter-and-PyGame.git
-    
 """
 
 import pygame
