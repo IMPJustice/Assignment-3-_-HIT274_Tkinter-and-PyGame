@@ -11,3 +11,4 @@ Task 1: TicTacToe folder
               
 Task 2: Pygame folder
   - Use command: "pip install pygame" to install Pygame
+  - Use command: "python Game.py" to run the application
